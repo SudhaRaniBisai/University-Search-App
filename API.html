@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Create a List Using API.
+        </title>
+        <style>
+
+        </style>
+    </head>
+    <body>
+        <input placeholder="Enter city name here">
+        <br>
+        <br>
+        <button id="btn">Show</button>
+        <ul id="list"></ul>
+        <script>
+            let url="http://universities.hipolabs.com/search?name=";
+            let btn=document.querySelector("#btn");
+            btn.addEventListener("click",async ()=>{
+                let ip=document.querySelector("input").value;
+                let coll= await getcoll(ip);
+                show(coll);
+            });
+            function show(coll){
+                let list =document.querySelector("#list");
+                list.innerHTML="";
+                if (coll.length == 0) {
+                list.innerHTML = "<li>No universities found</li>";
+                return;
+            }
+
+                for( let col of coll)
+            {
+                let li=document.createElement("li");
+                li.innerText=col.name;
+                list.appendChild(li);
+
+            }
+
+            }
+           async function getcoll(ip){
+            try{
+                let res=await axios.get(url+ip);
+                return res.data;
+            }
+            catch(e)
+            { return [];
+
+            }
+
+            }
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </body>
+</html>
